@@ -1,0 +1,400 @@
+api_key = "enc2:916aab9ea68c93f2f791742829db0a2eed2fe83d5b18322bcedfd0beb24cf9648daa63367bd7e5df3e450e10e93f07d3e5dd472a998bc21a6206bd109bf4c9f865a0e7cd57a6438736c311c41e4039dafe8c9ee3"
+default_provider = "custom:http://127.0.0.1:4000/v1"
+default_model = "deepseek-v3.2"
+default_temperature = 0.7
+embedding_routes = []
+
+[model_providers.groq]
+base_url = "https://api.groq.com/openai/v1"
+requires_openai_auth = false
+
+[model_providers.openrouter]
+base_url = "https://openrouter.ai/api/v1"
+requires_openai_auth = false
+
+[observability]
+backend = "none"
+runtime_trace_mode = "none"
+runtime_trace_path = "state/runtime-trace.jsonl"
+runtime_trace_max_entries = 200
+
+[autonomy]
+level = "full"
+workspace_only = false
+allowed_commands = [
+    "nginx",
+    "certbot",
+    "openssl",
+    "systemctl",
+    "service",
+    "dnf",
+    "yum",
+    "rpm",
+    "pip",
+    "pip3",
+    "node",
+    "npm",
+    "tar",
+    "zip",
+    "unzip",
+    "gzip",
+    "rsync",
+    "nc",
+    "ncat",
+    "tcpdump",
+    "firewall-cmd",
+    "iptables",
+    "crontab",
+    "kill",
+    "killall",
+    "pkill",
+    "lsof",
+    "strace",
+    "journalctl",
+    "logger",
+    "useradd",
+    "usermod",
+    "passwd",
+    "visudo",
+    "timedatectl",
+    "hostnamectl",
+    "nmcli",
+    "ip",
+    "ifconfig",
+    "route",
+    "dig",
+    "nslookup",
+    "traceroute",
+    "mysql",
+    "psql",
+    "redis-cli",
+    "docker",
+    "docker-compose",
+    "bash",
+    "sh",
+    "python3",
+    "python",
+    "curl",
+    "wget",
+    "git",
+    "npm",
+    "cargo",
+    "ls",
+    "cat",
+    "grep",
+    "find",
+    "echo",
+    "pwd",
+    "wc",
+    "head",
+    "tail",
+    "date",
+    "systemctl",
+    "journalctl",
+    "ps",
+    "free",
+    "df",
+    "top",
+    "htop",
+    "ping",
+    "ss",
+    "netstat",
+    "mkdir",
+    "rm",
+    "cp",
+    "mv",
+    "chmod",
+    "chown",
+    "sed",
+    "awk",
+    "tr",
+    "sort",
+    "uniq",
+    "tee",
+    "xargs",
+    "cut",
+    "env",
+    "export",
+    "which",
+    "uname",
+    "whoami",
+    "id",
+    "uptime",
+]
+forbidden_paths = []
+max_actions_per_hour = 100
+max_cost_per_day_cents = 500
+require_approval_for_medium_risk = false
+block_high_risk_commands = false
+shell_env_passthrough = []
+auto_approve = [
+    "file_read",
+    "file_write",
+    "memory_recall",
+    "shell",
+    "http_request",
+]
+always_ask = []
+allowed_roots = []
+non_cli_excluded_tools = []
+
+[security.sandbox]
+backend = "none"
+firejail_args = []
+
+[security.resources]
+max_memory_mb = 512
+max_cpu_time_seconds = 60
+max_subprocesses = 10
+memory_monitoring = true
+
+[security.audit]
+enabled = true
+log_path = "audit.log"
+max_size_mb = 100
+sign_events = false
+
+[security.otp]
+enabled = false
+method = "totp"
+token_ttl_secs = 30
+cache_valid_secs = 300
+gated_actions = []
+gated_domains = []
+gated_domain_categories = []
+
+[security.estop]
+enabled = false
+state_file = "~/.zeroclaw/estop-state.json"
+require_otp_to_resume = true
+
+[runtime]
+kind = "native"
+
+[runtime.docker]
+image = "alpine:3.20"
+network = "none"
+memory_limit_mb = 512
+cpu_limit = 1.0
+read_only_rootfs = true
+mount_workspace = true
+allowed_workspace_roots = []
+
+[reliability]
+provider_retries = 2
+provider_backoff_ms = 500
+fallback_providers = [
+    "groq",
+    "openrouter",
+]
+api_keys = []
+channel_initial_backoff_secs = 2
+channel_max_backoff_secs = 60
+scheduler_poll_secs = 15
+scheduler_retries = 2
+
+[reliability.model_fallbacks]
+"deepseek-v3.2" = [
+    "glm-4.6",
+    "openrouter/deepseek/deepseek-r1:free",
+]
+
+[scheduler]
+enabled = true
+max_tasks = 64
+max_concurrent = 4
+
+[agent]
+compact_context = true
+max_tool_iterations = 50
+max_history_messages = 15
+parallel_tools = true
+tool_dispatcher = "native"
+
+[skills]
+open_skills_enabled = false
+prompt_injection_mode = "full"
+
+[[model_routes]]
+hint = "reasoning"
+provider = "openrouter"
+model = "stepfun/step-3.5-flash"
+
+[query_classification]
+enabled = true
+
+[[query_classification.rules]]
+hint = "reasoning"
+keywords = [
+    "сложная задача",
+    "рассуждение",
+    "анализ",
+    "кодинг",
+    "агент",
+]
+patterns = [
+    "реши задачу",
+    "проанализируй",
+    "напиши код",
+    "настрой агента",
+]
+priority = 0
+
+[heartbeat]
+enabled = false
+interval_minutes = 30
+
+[cron]
+enabled = true
+max_run_history = 50
+
+[channels_config]
+cli = true
+message_timeout_secs = 300
+
+[channels_config.telegram]
+bot_token = "8666797061:AAE-dCRGyfeS-zdP8847en8E6inuH402rk0"
+allowed_users = ["480568670"]
+stream_mode = "off"
+draft_update_interval_ms = 1000
+interrupt_on_new_message = false
+mention_only = false
+
+[memory]
+backend = "sqlite"
+auto_save = true
+hygiene_enabled = true
+archive_after_days = 7
+purge_after_days = 30
+conversation_retention_days = 30
+embedding_provider = "none"
+embedding_model = "text-embedding-3-small"
+embedding_dimensions = 1536
+vector_weight = 0.7
+keyword_weight = 0.3
+min_relevance_score = 0.4
+embedding_cache_size = 10000
+chunk_max_tokens = 512
+response_cache_enabled = false
+response_cache_ttl_minutes = 60
+response_cache_max_entries = 5000
+snapshot_enabled = false
+snapshot_on_hygiene = false
+auto_hydrate = true
+
+[memory.qdrant]
+collection = "zeroclaw_memories"
+
+[storage.provider.config]
+provider = ""
+schema = "public"
+table = "memories"
+
+[tunnel]
+provider = "none"
+
+[gateway]
+port = 42617
+host = "127.0.0.1"
+require_pairing = true
+allow_public_bind = false
+paired_tokens = []
+pair_rate_limit_per_minute = 10
+webhook_rate_limit_per_minute = 60
+trust_forwarded_headers = false
+rate_limit_max_keys = 10000
+idempotency_ttl_secs = 300
+idempotency_max_keys = 10000
+
+[composio]
+enabled = false
+entity_id = "default"
+
+[secrets]
+encrypt = true
+
+[browser]
+enabled = false
+allowed_domains = []
+backend = "agent_browser"
+native_headless = true
+native_webdriver_url = "http://127.0.0.1:9515"
+
+[browser.computer_use]
+endpoint = "http://127.0.0.1:8787/v1/actions"
+timeout_ms = 15000
+allow_remote_endpoint = false
+window_allowlist = []
+
+[http_request]
+enabled = true
+allowed_domains = []
+max_response_size = 1000000
+timeout_secs = 30
+
+[multimodal]
+max_images = 4
+max_image_size_mb = 5
+allow_remote_fetch = true
+
+[web_fetch]
+enabled = true
+allowed_domains = ["*"]
+blocked_domains = []
+max_response_size = 500000
+timeout_secs = 30
+
+[web_search]
+enabled = true
+provider = "duckduckgo"
+max_results = 5
+timeout_secs = 15
+
+[proxy]
+enabled = false
+no_proxy = []
+scope = "zeroclaw"
+services = []
+
+[identity]
+format = "openclaw"
+
+[cost]
+enabled = false
+daily_limit_usd = 10.0
+monthly_limit_usd = 100.0
+warn_at_percent = 80
+allow_override = false
+
+[cost.prices]
+
+[peripherals]
+enabled = false
+boards = []
+
+[agents]
+
+[hooks]
+enabled = true
+
+[hooks.builtin]
+command_logger = false
+
+[hardware]
+enabled = false
+transport = "None"
+baud_rate = 115200
+workspace_datasheets = false
+
+[transcription]
+enabled = false
+api_url = "https://api.groq.com/openai/v1/audio/transcriptions"
+model = "whisper-large-v3-turbo"
+max_duration_secs = 120
+
+[tts]
+enabled = false
+default_provider = "openai"
+default_voice = "alloy"
+default_format = "mp3"
+max_text_length = 4096
