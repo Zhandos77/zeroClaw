@@ -24,8 +24,25 @@ Thumbs.db
 *.model
 *.bin
 *.h5
+models/
 
 # Логи и кэш
 *.log
 cache/
 temp/
+
+# Большие файлы
+*.zip
+*.tar.gz
+*.7z
+
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Тестовые файлы
+test_*.py
+__pycache__/
+*.pyc
