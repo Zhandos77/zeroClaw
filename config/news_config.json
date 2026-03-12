@@ -1,0 +1,69 @@
+{
+  "news_sources": {
+    "update_interval_minutes": 60,
+    "max_items_per_source": 10,
+    "default_language": "en",
+    "cache_duration_minutes": 30
+  },
+  "categories": {
+    "priority": ["economy", "technology", "politics"],
+    "excluded": ["entertainment", "sports"]
+  },
+  "output": {
+    "json_path": "data/news/latest.json",
+    "summary_path": "data/news/summary.txt",
+    "archive_days": 7
+  },
+  "sources": {
+    "kazakhstan": [
+      {
+        "name": "Kazinform",
+        "url": "https://www.inform.kz",
+        "rss": "https://www.inform.kz/rss",
+        "enabled": true
+      },
+      {
+        "name": "Tengrinews",
+        "url": "https://tengrinews.kz",
+        "rss": "https://tengrinews.kz/rss",
+        "enabled": true
+      }
+    ],
+    "international": [
+      {
+        "name": "BBC News",
+        "url": "https://www.bbc.com/news",
+        "rss": "https://feeds.bbci.co.uk/news/rss.xml",
+        "enabled": true
+      },
+      {
+        "name": "Reuters",
+        "url": "https://www.reuters.com",
+        "rss": "https://www.reutersagency.com/feed/",
+        "enabled": true
+      }
+    ],
+    "technology": [
+      {
+        "name": "TechCrunch",
+        "url": "https://techcrunch.com",
+        "rss": "https://techcrunch.com/feed/",
+        "enabled": true
+      }
+    ],
+    "economy": [
+      {
+        "name": "Bloomberg",
+        "url": "https://www.bloomberg.com",
+        "enabled": true,
+        "requires_api": true
+      }
+    ]
+  },
+  "features": {
+    "auto_fetch": true,
+    "send_notifications": false,
+    "generate_summary": true,
+    "archive_old_data": true
+  }
+}
